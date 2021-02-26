@@ -4,10 +4,17 @@
 
 #pragma once
 
+#include <frc/Joystick.h>
+#include <frc/XboxController.h>
+#include <frc/smartdashboard/SendableChooser.h>
 #include <frc2/command/Command.h>
+#include <frc2/command/button/Button.h>
 
-#include "commands/ExampleCommand.h"
-#include "subsystems/ExampleSubsystem.h"
+#include "Constants.h"
+#include "commands/AutonomousDistance.h"
+#include "commands/AutonomousTime.h"
+#include "subsystems/Drivetrain.h"
+#include "subsystems/OnBoardIO.h"
 
 /**
  * This class is where the bulk of the robot should be declared.  Since
@@ -17,15 +24,51 @@
  * commands, and button mappings) should be declared here.
  */
 class RobotContainer {
+  // NOTE: The I/O pin functionality of the 5 exposed I/O pins depends on the
+  // hardware "overlay"
+  // that is specified when launching the wpilib-ws server on the Romi raspberry
+  // pi. By default, the following are available (listed in order from inside of
+  // the board to outside):
+  // - DIO 8 (mapped to Arduino pin 11, closest to the inside of the board)
+  // - Analog In 0 (mapped to Analog Channel 6 / Arduino Pin 4)
+  // - Analog In 1 (mapped to Analog Channel 2 / Arduino Pin 20)
+  // - PWM 2 (mapped to Arduino Pin 21)
+  // - PWM 3 (mapped to Arduino Pin 22)
+  //
+  // Your subsystem configuration should take the overlays into account
  public:
   RobotContainer();
-
   frc2::Command* GetAutonomousCommand();
 
  private:
-  // The robot's subsystems and commands are defined here...
-  ExampleSubsystem m_subsystem;
-  ExampleCommand m_autonomousCommand;
+  // Assumes a gamepad plugged into channnel 0
+  //frc::Joystick m_controller{0};
+  // Assumes an Xbox controller plugged into channel 0
+  frc::XboxController m_controller{0};
+  frc::SendableChooser<frc2::Command*> m_chooser;
+
+  // The robot's subsystems
+  Drivetrain m_drive;
+  OnBoardIO m_onboardIO{OnBoardIO::ChannelMode::INPUT,
+                        OnBoardIO::ChannelMode::INPUT};
+
+  // Joystick buttons
+  frc2::Button m_controllerButtonA{
+      [this] { return m_controller.GetAButtonPressed(); }};
+  frc2::Button m_controllerButtonB{
+      [this] { return m_controller.GetBButtonPressed(); }};
+  frc2::Button m_controllerButtonX{
+      [this] { return m_controller.GetXButtonPressed(); }};
+  frc2::Button m_controllerButtonY{
+      [this] { return m_controller.GetYButtonPressed(); }};
+
+  // Robot buttons
+  frc2::Button m_onboardButtonA{
+      [this] { return m_onboardIO.GetButtonAPressed(); }};
+
+  // Autonomous commands.
+  AutonomousDistance m_autoDistance{&m_drive};
+  AutonomousTime m_autoTime{&m_drive};
 
   void ConfigureButtonBindings();
 };
