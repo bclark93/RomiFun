@@ -18,17 +18,21 @@ RobotContainer::RobotContainer() {
 void RobotContainer::ConfigureButtonBindings() {
   // Also set default commands here
   m_drive.SetDefaultCommand(TeleopArcadeDrive(
-      &m_drive, [this] { return -m_controller.GetRawAxis(1); },
-      [this] { return m_controller.GetRawAxis(2); }));
+      &m_drive, [this] { return -m_controller.GetRawAxis(1)*kXaxisMultiplier; },
+      [this] { return m_controller.GetRawAxis(2)*kZaxisMultiplier; }));
 
   // Setup controller buttons
   m_controllerButtonA.WhenPressed(TurnDegrees(0.5, 180_deg, &m_drive));
-  m_controllerButtonX.WhenPressed(TurnDegrees(-0.5, 90_deg, &m_drive));
-  m_controllerButtonB.WhenPressed(TurnDegrees(0.5, 90_deg, &m_drive));
+  //m_controllerButtonX.WhenPressed(TurnDegrees(-0.5, 90_deg, &m_drive));
+  //m_controllerButtonB.WhenPressed(TurnDegrees(0.5, 90_deg, &m_drive));
+  m_controllerButtonLB.WhenPressed(TurnDegrees(-0.5, 90_deg, &m_drive));
+  m_controllerButtonRB.WhenPressed(TurnDegrees(0.5, 90_deg, &m_drive));
   // WIP: Turn on Yellow LED when Y Button is pressed
   //m_controllerButtonY.WhenPressed(m_onboardIO.SetYellowLed(true))
   //    .WhenReleased(m_onboardIO.SetYellowLed(false));
-
+  // WIP: Toggle zAxis multiplier when pressed
+  //m_controllerButtonRS.ToggleWhenPressed(ToggleRotationSpeed());
+  
   // Example of how to use the onboard IO
   m_onboardButtonA.WhenPressed(frc2::PrintCommand("Button A Pressed"))
       .WhenReleased(frc2::PrintCommand("Button A Released"));

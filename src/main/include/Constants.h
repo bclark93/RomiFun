@@ -17,3 +17,9 @@ namespace DriveConstants {
 constexpr double kCountsPerRevolution = 1440.0;
 constexpr double kWheelDiameterInch = 2.75;
 }  // namespace DriveConstants
+
+// Controller input multipliers
+constexpr double kXaxisMultiplier = 1.0;
+constexpr double kZaxisMultiplier = 0.8;
+//constexpr double kZaxisHighSpeed = 1.0;
+//constexpr double kZaxisLowSpeed = 0.5;

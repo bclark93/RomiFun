@@ -26,7 +26,11 @@ bool TurnDegrees::IsFinished() {
   // found here https://www.pololu.com/category/203/romi-chassis-kits, has a
   // wheel placement diameter (149 mm) - width of the wheel (8 mm) = 141 mm
   // or 5.551 inches. We then take into consideration the width of the tires.
-  static auto inchPerDegree = (5.551_in * wpi::math::pi) / 360_deg;
+  //static auto inchPerDegree = (5.551_in * wpi::math::pi) / 360_deg;
+  
+  // Found my Romi wheel placement diameter to be 148 mm - wideth of the wheel (8 mm) = 140 mm
+  // or 5.512 inches. However, found that a value of 5.100 provided the best outcome.
+  static auto inchPerDegree = (5.100_in * wpi::math::pi) / 360_deg;
 
   // Compare distance traveled from start to distance based on degree turn.
   return GetAverageTurningDistance() >= inchPerDegree * m_angle;

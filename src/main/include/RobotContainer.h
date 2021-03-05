@@ -61,6 +61,13 @@ class RobotContainer {
       [this] { return m_controller.GetXButtonPressed(); }};
   frc2::Button m_controllerButtonY{
       [this] { return m_controller.GetYButtonPressed(); }};
+  frc2::Button m_controllerButtonLB{
+      [this] { return m_controller.GetBumperPressed(frc::GenericHID::kLeftHand); }};
+  frc2::Button m_controllerButtonRB{
+      [this] { return m_controller.GetBumperPressed(frc::GenericHID::kRightHand); }};
+  // WIP: Attempt to create a toggle button
+  //frc2::Button m_controllerButtonRS{
+  //    [this] { return m_controller.GetStickButtonPressed(frc::GenericHID::kRightHand); }};
 
   // Robot buttons
   frc2::Button m_onboardButtonA{
