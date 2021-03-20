@@ -8,10 +8,10 @@
 
 TeleopArcadeDrive::TeleopArcadeDrive(
     Drivetrain* subsystem, std::function<double()> xaxisSpeedSupplier,
-    std::function<double()> zaxisRotateSuppplier)
+    std::function<double()> zaxisRotateSupplier)
     : m_drive{subsystem},
       m_xaxisSpeedSupplier{xaxisSpeedSupplier},
-      m_zaxisRotateSupplier{zaxisRotateSuppplier} {
+      m_zaxisRotateSupplier{zaxisRotateSupplier} {
   AddRequirements({subsystem});
 }
 
