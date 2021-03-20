@@ -9,6 +9,7 @@
 #include <frc2/command/button/Button.h>
 
 #include "commands/TeleopArcadeDrive.h"
+#include "commands/TeleopTankDrive.h"
 
 RobotContainer::RobotContainer() {
   // Configure the button bindings
@@ -17,9 +18,12 @@ RobotContainer::RobotContainer() {
 
 void RobotContainer::ConfigureButtonBindings() {
   // Also set default commands here
-  m_drive.SetDefaultCommand(TeleopArcadeDrive(
-      &m_drive, [this] { return -m_controller.GetRawAxis(1)*kXaxisMultiplier; },
-      [this] { return m_controller.GetRawAxis(2)*kZaxisMultiplier; }));
+  //m_drive.SetDefaultCommand(TeleopArcadeDrive(
+  //    &m_drive, [this] { return -m_controller.GetRawAxis(1)*kXaxisMultiplier; },
+  //    [this] { return m_controller.GetRawAxis(4)*kZaxisMultiplier; }));
+  m_drive.SetDefaultCommand(TeleopTankDrive(
+      &m_drive, [this] { return -m_controller.GetRawAxis(1); },
+      [this] { return -m_controller.GetRawAxis(5); }));
 
   // Setup controller buttons
   m_controllerButtonA.WhenPressed(TurnDegrees(0.5, 180_deg, &m_drive));
